@@ -7,7 +7,7 @@
     "start": "node src/index.js",
     "test": "jest --verbose",
     "lint": "eslint src/",
-    "build": "echo Building application... && mkdir dist && xcopy src\\*.js dist\\ /Y && echo Build complete!"
+    "build": "echo 'Building application...' && mkdir -p dist && cp src/*.js dist/ && echo 'Build complete!'"
   },
   "keywords": [],
   "author": "",
