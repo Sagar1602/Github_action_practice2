@@ -1,0 +1,64 @@
+name: workflow2
+on: 
+  push:
+    branches: [main, dev, staging]
+jobs:
+    test:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Code Checkout
+          uses: actions/checkout@v4
+
+        - name: Setup nodeJS 
+          uses: actions/setup-node@v4 
+
+        - name: Install Dependencies
+          run: npm ci
+
+        - name: Lint
+          run: npm run lint
+
+        - name: test
+          run: npm run test
+    
+    build:
+        needs: test
+        runs-on: ubuntu-latest
+        outputs: 
+            app-version: ${{steps.version.outputs.version}}
+        steps:
+          - name: code checkout
+            uses: actions/checkout@v4
+
+          - name: Setup nodeJS
+            uses: actions/setup-node@v4
+            with:
+              node-version: 18
+              cache: 'npm'
+
+          - name: Install Dependencies
+            run: npm ci
+          - name: Extract Version
+            id: version
+            run: echo "version=$(node -e "console.log(require('./package.json').version)")">> $GITHUB_OUTPUT  
+            
+          - name: lint
+            run: npm run lint 
+            
+          - name: test
+            run: npm run test  
+
+          - name: build stage
+            run: npm run build    
+          - name: storing the artifact
+            uses: actions/upload-artifact@v4
+            with:
+               name: dist
+               path: dist/  
+               retention-day: 5    
+    deploy:
+      needs: build
+      runs-on: ubuntu-latest
+      steps:
+        - name: deploying
+          run: echo "deploying the code to the prod" 
