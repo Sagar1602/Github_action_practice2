@@ -40,7 +40,10 @@ jobs:
             run: npm ci
           - name: Extract Version
             id: version
-            run: echo "version=$(node -e "console.log(require('./package.json').version)")">> $GITHUB_OUTPUT  
+            run: |
+             echo "version=$(node -e "console.log(require('./package.json').version)")">> $GITHUB_OUTPUT 
+             echo "version=$VERSION" >> $GITHUB_OUTPUT
+             echo "Extracted version: $VERSION" 
             
           - name: lint
             run: npm run lint 
