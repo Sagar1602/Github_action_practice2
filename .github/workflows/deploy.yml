@@ -22,7 +22,7 @@ jobs:
               
     
     build:
-        needs: test
+        needs: npm-install
         runs-on: ubuntu-latest
         outputs: 
             app-version: ${{steps.version.outputs.version}}
