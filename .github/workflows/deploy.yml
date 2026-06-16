@@ -18,7 +18,7 @@ jobs:
           uses: actions/checkout@v4 
 
         - name: npm installation
-          uses: ./Sagar1602/JAVA_Application_Deployment_2/.github/actions/node-app/action.yml
+          uses: ./.github/actions/node-app/
            
               
     
