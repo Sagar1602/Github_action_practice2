@@ -9,17 +9,17 @@ jobs:
         - name: Code Checkout
           uses: actions/checkout@v4
 
-        - name: Setup nodeJS 
-          uses: actions/setup-node@v4 
+    npm-install:
+      needs: test
+      runs-on: ubuntu-latest
+      steps:
+        - name: code checkout
+          uses: actions/checkout@v4 
 
-        - name: Install Dependencies
-          run: npm ci
-
-        - name: Lint
-          run: npm run lint
-
-        - name: test
-          run: npm run test
+        - name: npm installation
+          uses: ./.github/actions/node-app/
+           
+              
     
     build:
         needs: test
